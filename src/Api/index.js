@@ -75,6 +75,14 @@ export const onorder=()=>axios.get("/api/xhr/item/getSubmitOrderInfo.json?__time
 export const getshopdetail =(id)=>axios.get("/api/xhr/item/detailForSpec.json?__timestamp=1603889177850&id="+id+"")
 // Item end
 
+// sale start
+
+//获取抢购时间表
+export const gettodaysale=()=>axios.get("/api/xhr/flashSale/getScreen.json")
+
+// 获取轮播图
+export const getbananer=()=>axios.get("/api/xhr/flashSale/getBanners.json")
+// 获取抢购的商品
 
 
-
+export const getShop=(id)=>axios.get("/api/xhr/flashSale/getScreen.json?screenId="+id+"&topItemId=0")

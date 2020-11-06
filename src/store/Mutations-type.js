@@ -21,6 +21,11 @@ const GETDETAILALLOW="getdetailallow"
 const GETCURRENTCONTENT="getcurrentcontent"
 
 const DISPOSETOPID="disposetopid"
+const GETTODAYSALE="gettodaysale"
+
+const GETBANANER="getbananer"
+
+const GETSHOPS="getshops"
 export {
 
 ALLCONTENT,
@@ -39,5 +44,8 @@ GETDETAILS,
 GETDETAILALLOW,
 GETCURRENTCONTENT,
 GETGULPID,
-DISPOSETOPID
+DISPOSETOPID,
+GETTODAYSALE,
+GETBANANER,
+GETSHOPS
 }

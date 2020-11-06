@@ -13,6 +13,7 @@ import CategoryList from '../commponts/ClassifyShop/ClassifyShop'
 
 import DeserveContent from '../commponts/Deserve/DeserveContents/DeserveContents.vue'
 import Item from '../commponts/Item/Item'
+import FlashSale from '../commponts/FlashSale/FlashSale'
 Vue.use(VueRouter)
 
 
@@ -32,7 +33,8 @@ export default  new VueRouter({
          {path:"/categoryList",component:CategoryList,name:"list",meta:{isShow:false},props:true},
          {path:"/shopitems",component:ShopItem,meta:{isShow:false},name:"items",props:true},
          {path:"/deserveContent/:topid",component:DeserveContent,meta:{isShow:false},props:true,name:"deserve"},
-         {path:"/loginSuccess",component:LoginSuccess,meta:{isShow:true},name:"success"}
+         {path:"/loginSuccess",component:LoginSuccess,meta:{isShow:true},name:"success"},
+         {path:"/flashsale",component:FlashSale,meta:{isShow:true},name:"flash"}
     ],
 
     
