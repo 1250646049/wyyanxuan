@@ -6,7 +6,7 @@
 <!-- 头部抢购时间 -->
 <header>
 <ul ref="myUl">
-    <li v-show="item.status>0" :class="1==item.status?'on':''" v-for="(item,index) in screenList" :key="index">
+    <li @click="switchcover(item.id,index)" v-show="item.status>0" :class="index==currentIndex ?'on':''" v-for="(item,index) in screenList" :key="index">
         <h1>{{item.startTime |filterTime}}</h1>
         <h2 >{{item.status==1?'正在抢购':"即将开始"}}</h2>
     </li>
@@ -32,11 +32,15 @@
     <ul>
 
         <li  v-for="(item,index) in itemList.itemList" :key="index">
-            <img v-lazy="item.primaryPicUrl" alt="">
+           <div class="imgs">
+                <img v-lazy="item.primaryPicUrl" alt="">
+                <span>{{item.priceDesc}}</span>
+           </div>
             <div class="contents">
                 <div class="name">{{item.itemName}}</div>
-                <p>
-                    {{item.saleDesc}}
+                <p >
+                   <span v-if="item.currentSellVolume && itemList.screenId!=currentId">限量{{item.currentSellVolume}}件</span>
+                   <span :style="{'color':item.remindCount?'#2BAB52':''}"> {{item.saleDesc?item.saleDesc:item.remindCount+'人设置提醒'}}</span>
                 </p>
                 <div class="bottom">
                     <div class="price">
@@ -45,8 +49,8 @@
                         </span>
                         <del>￥{{item.retailPrice}}</del>
                     </div>
-                    <div class="buy">
-                        马上抢
+                    <div class="buy" :style="itemList.screenId !=currentId?'background:#2BAB52':''">
+                        {{itemList.screenId ==currentId?'马上抢':'提醒我'}}
                     </div>
                 </div>
             </div>
@@ -72,7 +76,8 @@ import swiper from 'swiper'
 export default {
 data(){
     return {
-        currentId:""
+        currentId:"",
+        currentIndex:""
     }
 }
 ,mounted(){
@@ -87,13 +92,18 @@ computed:{
         banner:state=>state.Sale.banner,
         itemList:state=>state.Sale.itemList
     }),
+
   
 }
 ,
 methods:{
     init(){
-        let obj= this.screenList.find(item=>item.status==1)
-        this.currentId=obj.id
+       let obj= this.screenList.find(item=>item.status==1)
+        this.currentId=obj.id;
+        
+        let index=this.screenList.findIndex(item=>item.status==1)
+        // this.currentId=obj.id
+        this.currentIndex=index
         this.$store.dispatch("GETSHOPS",this.currentId)
     //    oul.style.width=width+"px"
        new BetterScroll("header",{
@@ -101,6 +111,11 @@ methods:{
            click:true
        })
        
+    },
+    switchcover(id,index){
+        if(this.currentIndex==index) return;
+         this.$store.dispatch("GETSHOPS",id)
+        this.currentIndex=index
     }
 }
 ,
@@ -223,10 +238,26 @@ filters:{
                 margin 5px 0
                 padding 2px
                 box-sizing border-box
-                img 
-                    background #fff
-                    flex 45%
-                    height 140px
+                .imgs
+                    position relative
+                    img 
+                        background #fff
+                        flex 45%
+                        height 140px
+                    span 
+                        background #DD1A1F
+                        position absolute
+                        top 0
+                        left 10px
+                        width 25px
+                        height 20px
+                        color white 
+                        font-size 12px
+                        font-weight 600
+                        text-align center
+                        padding 12px 8px
+                        border-bottom-left-radius 17px
+                        border-bottom-right-radius 17px
                 .contents 
                     padding-right 5px
                     flex 45%
@@ -237,9 +268,10 @@ filters:{
                     padding-bottom 3px
                     position relative
                     .name   
-                        font-size  16px
+                        font-size  14px
                         color #333
                         font-weight 700
+                        line-height 22px
                     p 
                         text-align right
                         position absolute
@@ -247,6 +279,12 @@ filters:{
                         left 0
                         right 8px
                         color #DD1A21
+                        span 
+                            &:first-child 
+                                float left
+                                margin-left 10px
+                            &:last-child 
+                                float right
                     .bottom 
                         position absolute
                         bottom 10px

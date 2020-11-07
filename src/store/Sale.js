@@ -37,7 +37,7 @@ const actions={
     },
     async GETSHOPS({commit},id){
         let data=await getShop(id)
-        console.log(data.data)
+      
        commit(GETSHOPS,data.data)
     }
 

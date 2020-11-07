@@ -43,6 +43,7 @@ const actions={
         //     console.log(error.message)
         // })
       let data=await allcategory()
+    //   console.log(data.data.data)
       commit(ALLCONTENT,data.data.data)
     },
 

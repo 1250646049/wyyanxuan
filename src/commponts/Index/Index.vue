@@ -90,6 +90,27 @@
             </div>
         </div>
     </div>
+    <!-- 限时抢购 -->
+
+    <div class="sale">
+         <div class="tops">
+                     <div class="buy" v-html="isTime">
+         
+        </div>
+        <a @click.prevent="$router.replace('/flashsale')" href="" class="more">更多 ></a>
+         </div>
+         <ul class="bottom" v-if="Mister.flashSaleModule">
+             <li v-for="(item,index) in Mister.flashSaleModule.itemList" :key="index">
+                 <img v-lazy="item.picUrl" alt="">
+                 <p>
+                     <span>￥{{item.activityPrice}}</span>
+                     <del>￥{{item.originPrice}}</del>
+                 </p>
+             </li>
+             <li></li>
+             <li></li>
+         </ul>
+    </div>
 </section>
 
 </div>
@@ -148,7 +169,46 @@ methods:{
            this.big_channel=false 
            
 
+    },
+    isTime(){
+        let buy=document.querySelector(".buy")
+      let index= this.flashsale.findIndex(item=>item.status==1)
+      let time=this.flashsale[index=index+1?index+1:index].startTime
+      let beforeDate=new Date(time)
+      let brforehours=beforeDate.getHours()
+    //   let beforeminutes=beforeDate.getMinutes()
+    //   let beforeseconed=beforeDate.getSeconds()
+           let currentDate=new Date()
+          let hours=Math.abs(brforehours-currentDate.getHours()-1)
+          let minutes=59-currentDate.getMinutes()
+        let seconed=60-currentDate.getSeconds()
+         buy.innerHTML=""
+      setInterval(()=>{
+            seconed--
+            if(seconed<=0){
+                seconed=59
+                minutes--
+                if(minutes<0){
+                      hours--;
+                        minutes=59
+                }
+            }
+            if(seconed==0 && minutes==0 && hours==0){
+                location.reload()
+            }
+         let data=`
+           限时购
+            <span class="hours" style="background:#000;color:white;padding:2px;font-size:12px;">${hours<10?'0'+hours:hours}</span>:
+            <span class="minute" style="background:#000;color:white;padding:2px;font-size:12px;">${minutes<10?'0'+minutes:minutes}</span>:
+            <span class="second" style="background:#000;color:white;padding:2px;font-size:12px;">${seconed<10?'0'+seconed:seconed}</span>
+        `
+            buy.innerHTML=data
+      },1000)
+   
+         
+
     }
+    
 ,
 select(index,item){
     this.active=index;
@@ -178,8 +238,11 @@ computed:{
         category:state=>state.Mister.category,
         lunbo:state=>state.Mister.lunbo,
         title:state=>state.Mister.title,
-        Mister:state=>state.Mister.Mister
+        Mister:state=>state.Mister.Mister,
+        // 当前抢购剩余时间
+        flashsale:state=>state.Sale.screenList
     }),
+
 
 },
 
@@ -197,12 +260,18 @@ new Swiper('.swiper-container',{
 ,
 
 this.$store.dispatch("ALLCONTENT")
-
+// 获取限时抢购的抢购场次等信息
+this.$store.dispatch("GETTODAYSALE")
          
 
 },
 watch:{
-
+Mister(){
+    //  this.$store.dispatch("GETSHOPS",this.Mister.flashSaleModule.flashSaleScreenId)
+},
+flashsale(){
+    this.isTime()
+}
 },
 
 components:{
@@ -380,5 +449,51 @@ section
                 text-align center
                 img 
                     width 70%   
+    .sale
+        padding 4px 10px
+        .tops
+            &:after 
+                content ""
+                display block
+                clear both
+            .buy 
+                float left
+                font-size 16px
+                color #333
+                span 
                     
+                    font-size 12px
+                    display inline-block
+                    margin 3px
+                    color white
+                    background #000
+                    padding 4px
+
+            .more 
+                float right   
+                margin-top 6px
+                color #333  
+        .bottom
+            display flex
+            flex-wrap wrap
+            li
+                text-align center
+                margin-right 5px
+                margin-top 5px
+                margin-bottom 5px
+                display flex
+                flex-direction column
+                flex 30%
+                img 
+                    width 100%
+                p 
+                    margin 8px
+                    span 
+                        font-size 15px
+                        color red
+                    del 
+                        font-size 13px
+                        color #999
+                        margin-left 6px 
+
 </style>
