@@ -111,6 +111,29 @@
              <li></li>
          </ul>
     </div>
+
+    <!-- 新品首发 -->
+    <div class="new_shop">
+        <div class="new_top">
+            <h2>新品首发</h2>
+                <a href="" class="more">更多 ></a>      
+            </div>
+        <ul class="new_shops">
+            <li v-show="index<6" v-for="(item,index) in Mister.newItemList" :key="index">
+               <img v-lazy="item.primaryPicUrl" alt=""> 
+               <div class="names">
+                   {{item.name}}
+               </div>
+               <div class="prices">
+                   ￥{{item.retailPrice}}
+               </div>
+               <div class="huodon" v-if="item.promTag">
+                   <span>{{item.promTag}}</span>
+               </div>
+            </li>
+                  
+        </ul>
+    </div>
 </section>
 
 </div>
@@ -183,7 +206,11 @@ methods:{
           let minutes=59-currentDate.getMinutes()
         let seconed=60-currentDate.getSeconds()
          buy.innerHTML=""
-      setInterval(()=>{
+   let times=setInterval(()=>{
+        if(seconed<=0 && minutes<=0 && hours<=0){
+                clearInterval(times)
+                return;
+            }
             seconed--
             if(seconed<=0){
                 seconed=59
@@ -193,9 +220,7 @@ methods:{
                         minutes=59
                 }
             }
-            if(seconed==0 && minutes==0 && hours==0){
-                location.reload()
-            }
+           
          let data=`
            限时购
             <span class="hours" style="background:#000;color:white;padding:2px;font-size:12px;">${hours<10?'0'+hours:hours}</span>:
@@ -284,7 +309,7 @@ components:{
 
 <style lang='stylus' scoped rel='stylesheet/stylus' >
 .wrap
-
+ background #EEEEEE
  margin-bottom 60px 
  overflow hidden
  .top
@@ -317,6 +342,7 @@ components:{
                     color #dd1a21
                 border-bottom 2px solid #dd1a21    
     .all_cate 
+        background #fff  
         padding 5px 2px
         p
             text-indent 1em
@@ -358,6 +384,7 @@ section
                 height 200px
                 width 100%
     .title
+        background #fff  
         margin 5px 0
         display flex
         justify-content space-around
@@ -369,6 +396,7 @@ section
             span 
                 vertical-align middle
     .classify
+        background #fff  
         display flex
         justify-content space-evenly
         flex-wrap wrap
@@ -387,6 +415,7 @@ section
         img 
             width 100%
     .tuijian
+        background #fff  
         padding 7px 0
         background #F5C066
         border-radius 8px
@@ -450,6 +479,8 @@ section
                 img 
                     width 70%   
     .sale
+        background #fff
+        margin-top 8px
         padding 4px 10px
         .tops
             &:after 
@@ -495,5 +526,44 @@ section
                         font-size 13px
                         color #999
                         margin-left 6px 
-
+    .new_shop
+        background #fff  
+        margin 8px 0 0 0
+        padding 4px 10px
+        .new_top
+            width 100% 
+            &:after 
+                content ""
+                display block
+                clear both
+            h2 
+                font-size 16px
+                float left
+            .more 
+                float right
+                font-size 12px
+        .new_shops
+            display flex
+            flex-wrap wrap
+            li 
+                margin-bottom 3px
+                margin-right 8px
+                flex 30%
+                img 
+                    width 100%
+                .names 
+                    font-size 12px
+                    line-height 18px
+                .prices 
+                    font-size 16px
+                    color red
+                    font-weight 600
+                    margin 6px 0
+                .huodon     
+                    span 
+                        display inline-block
+                        border 1px solid #dd1a21
+                        color #dd1a21
+                        padding 2px 4px 
+                        border-radius 12px
 </style>
