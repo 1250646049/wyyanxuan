@@ -100,7 +100,7 @@
         <a @click.prevent="$router.replace('/flashsale')" href="" class="more">更多 ></a>
          </div>
          <ul class="bottom" v-if="Mister.flashSaleModule">
-             <li v-for="(item,index) in Mister.flashSaleModule.itemList" :key="index">
+             <li @click="$router.push('/flashsale')" v-for="(item,index) in Mister.flashSaleModule.itemList" :key="index">
                  <img v-lazy="item.picUrl" alt="">
                  <p>
                      <span>￥{{item.activityPrice}}</span>
@@ -116,10 +116,10 @@
     <div class="new_shop">
         <div class="new_top">
             <h2>新品首发</h2>
-                <a href="" class="more">更多 ></a>      
+                <a @click.prevent="$router.replace('/new')" href="" class="more">更多 ></a>      
             </div>
         <ul class="new_shops">
-            <li v-show="index<6" v-for="(item,index) in Mister.newItemList" :key="index">
+            <li @click="toBuy(item.id)" v-show="index<6" v-for="(item,index) in Mister.newItemList" :key="index">
                <img v-lazy="item.primaryPicUrl" alt=""> 
                <div class="names">
                    {{item.name}}
@@ -232,6 +232,14 @@ methods:{
    
          
 
+    },
+    toBuy(id){
+      this.$router.push({
+          name:"items",
+          query:{
+              shopId:id
+          }
+      })
     }
     
 ,
@@ -514,7 +522,7 @@ section
                 margin-bottom 5px
                 display flex
                 flex-direction column
-                flex 30%
+                width 2.88rem
                 img 
                     width 100%
                 p 

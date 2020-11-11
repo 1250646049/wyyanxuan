@@ -11,7 +11,7 @@ import Item from './Item'
 import Cart from './Cart'
 import Category from './Category'
 import Deserve from './DeserveBuy'
-
+import NewShop from './NewShop'
 import Sale from './Sale'
 Vue.use(Vuex)
 
@@ -23,7 +23,8 @@ export default new Vuex.Store({
     Cart,
     Category,
     Deserve,
-    Sale
+    Sale,
+    NewShop
    },
    state,
    mutations,

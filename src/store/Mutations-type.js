@@ -26,6 +26,10 @@ const GETTODAYSALE="gettodaysale"
 const GETBANANER="getbananer"
 
 const GETSHOPS="getshops"
+
+// 新品专区
+
+const GETLISTDATA="getlistdata"
 export {
 
 ALLCONTENT,
@@ -47,5 +51,6 @@ GETGULPID,
 DISPOSETOPID,
 GETTODAYSALE,
 GETBANANER,
-GETSHOPS
+GETSHOPS,
+GETLISTDATA
 }

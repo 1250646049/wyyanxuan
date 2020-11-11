@@ -86,3 +86,10 @@ export const getbananer=()=>axios.get("/api/xhr/flashSale/getBanners.json")
 
 
 export const getShop=(id)=>axios.get("/api/xhr/flashSale/getScreen.json?screenId="+id+"&topItemId=0")
+
+
+// 新品分区
+
+// 获取首页大图
+
+export const getListData=()=>axios.get("/api/item/newItem.json?__timestamp=1605022564015&")
